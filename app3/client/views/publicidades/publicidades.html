@@ -1,0 +1,316 @@
+<template name="publicidades">
+<div style="float:right;width: 200px">
+ <button style="float:right;" data-toggle="tooltip" data-placement="bottom" data-html="true" title="Agregar publicidad" id="btnAgregar" class="btn  btn-sm btn-primary  btn"><i class="fas fa-plus"></i> <b>NUEVO</b> CONVENIO </button>
+
+</div>
+   <h1><i class="fas fa-store"></i> CONVENIOS</h1>
+
+{{> reactiveTable id="tabla" settings=settings}}
+ 
+</template> 
+<template name="imagenPubli">
+
+<h3><b>AGREGAR</b> IMAGEN <small> debe ser formato comun de imagen</small></h3>
+<div class="fileupload fileupload-new" data-provides="fileupload">
+   <span class="btn btn-file">
+      <span class="fileupload-new"></span>
+      <span class="fileupload-exists">{{file.label.de}}</span>
+      <input name="{{file.name}}" class="file-upload-input" method="{{file.method}}" type="file">
+   
+   </span>
+   <span class="fileupload-preview">
+   </span>
+   <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+</div>
+<input type="HIDDEN" value="{{logo}}"  id="logo" >
+</template>
+<template name="textoContrato">
+   {{>cabezal mes=mes ano=ano dia=dia}}
+                  <h5><b>CONTRATO DE ADHESIÓN</b> <small>CAI Beneficios</small></h5>
+<br>
+En la ciudad de Comodoro Rivadavia, a los <b>{{dias}}</b> días del mes de  <b>{{mesLetras}}</b>, de <b>{{ano}}</b>, el Sr./Sra. <b>{{representa}}</b>, representando a  <b>{{razonSocial}}</b>  en su carácter de  <b>{{caracterRepresenta}}</b>, con domicilio en  <b>{{domicilio}}</b>, responsable del comercio que gira en plaza bajo el nombre de fantasía  <b>{{nombreFantasia}}</b>, cuyo objeto comercial es <b>{{rubro}}</b>, adhiere al programa <i>“CAI BENEFICIOS” </i>cuyos efectos manifiesta: 
+<br>
+<b>PRIMERO:</b> Que hace propios los objetivos, alcances e implementación del Programa, comprometiéndose a cumplir con los requerimientos de CAI, tanto actuales como los que en un futuro se dispongan, para el mejor desarrollo del mismo.- <br>
+<b>SEGUNDO:</b> Que ofrecerá a los socios de CAI los siguientes beneficios: <br>
+{{#each promociones}}
+ <b><b style='color:red'>{{nro}}.- </b> Un  <b style='color:red'>{{cantidad}}</b>  <b style='color:red'>{{ahorroEn}} </b>de descuento del precio de venta de  <b style='color:red'>{{detalle}}</b>(cualquiera de los productos o servicios propios de su giro comercial o acotado ) (en operaciones de pago contado {{#if tieneCuotas}} y/o de crédito hasta  <b>{{cantidadCuotas}}</b> cuotas {{/if}}.)</b> <br>
+
+ {{/each}}
+ <br>
+
+<b>TERCERO:</b> El presente acuerdo tendrá vigencia por un año a contar desde su suscripción, con renovación automática por un período igual de tiempo y de manera indefinida al finalizar cada período anual, salvo expresa solicitud de baja por parte del comercio/empresa, quien deberá comunicarlo con 30 días de anticipación a la fecha de finalización del acuerdo .  <br>
+<b>CUARTO:</b> CAI no será responsable de ninguna consecuencia que se produzca por la transacción comercial que se realice en el marco del programa, toda vez que como entidad intermedia sólo brinda el ámbito para que el programa se ejecute de manera tal de que los socios accedan a los beneficios  de los comercios voluntariamente adheridos.-
+EN PRUEBA DE CONFORMIDAD SE FIRMAN DOS EJEMPLARES DE UN MISMO TENOR Y A UN SOLO EFECTO EN EL LUGAR Y FECHA INDICADOS.
+
+<div style="padding-top: 150px" class="row">
+ <div class="col-md-6" style="">
+    __________________________________<br>
+  <b>Karina Thomas <small><i>Gerente</i></small></b>
+ </div>
+  <div class="col-md-5" style="">
+  __________________________________<br>
+  <b>{{representa}} <small><i>{{caracterRepresenta}}</i></small></b>
+ </div>
+</div>
+</template>
+<template name='imprimirContrato'> 
+<div class="modal fade bs-example-modal-lg" tabindex="" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+                  <div style="float:right">
+                   <button id="btnGuardar" style="display:none" class="btn btn-success btn-sm"><i class="fas fa-floppy-disk"></i> Guardar</button>
+                   <button id="btnGenerar"  class="btn btn-warning btn-sm"><i class="fas fa-repeat"></i> Generar Contrato</button>
+                  <button id="btnImprimir"  class="btn btn-success btn-sm"><i class="fas fa-print"></i> Imprimir</button>
+                   <button id="btnEnviar"  class="btn btn-success btn-sm"><i class="fas fa-envelope"></i> Enviar</button>
+                   </div>
+                </div>
+
+              <div class="modal-body">
+                <div style="padding-left: 80px;width: 100%;padding-right: 80px;padding-top: 50px"  id='printable' class='printable'>
+                <div id="contrato"> {{textoContrato}}</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+</template>
+<template name="editarBanner">
+  <div style="width: 1000px">
+     <div style="width: 40px;float:right;">
+      <div style="width: 60px; margin-top: 5px" class="form-inline">
+     
+     <button  title="Importar" type="button" id="importar" class="btn  btn-xs btn-warning" aria-label="Left Align">  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> </button>
+   </div>
+     <div style="width: 60px; margin-top: 5px" class="form-inline">
+     <button style=""  title="Enivar Atras" type="button" id="enviarAtras" class="btn  btn-xs btn" aria-label="Left Align">  <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span> </button>
+     <button  style="margin-left: 3px"  title="Enviar Frente" type="button" id="enviarFrente" class="btn  btn-xs btn" aria-label="Left Align">  <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span> </button>
+   </div>
+   <div style="width: 60px; margin-top: 5px" class="form-inline">
+     <button style="background-color: #f39f05"  title="Color primario" type="button" id="colorPrimario" class="btn  btn-xs btn" aria-label="Left Align">  <span class="glyphicon glyphicon-tint" aria-hidden="true"></span> </button>
+     <button  style="margin-left: 3px;background-color: #181492"  title="Color Secundario" type="button" id="colorSecundario" class="btn  btn-xs btn" aria-label="Left Align">  <span class="glyphicon glyphicon-tint" aria-hidden="true"></span> </button>
+      <button  style="background-color: #fff"  title="Color blanco" type="button" id="colorBlanco" class="btn  btn-xs btn" aria-label="Left Align">  <span class="glyphicon glyphicon-tint" aria-hidden="true"></span> </button>
+      <button  style="margin-left: 3px;background-color: #000"  title="Color Negro" type="button" id="colorNegro" class="btn  btn-xs btn" aria-label="Left Align">  <span class="glyphicon glyphicon-tint" aria-hidden="true"></span> </button>
+   </div>
+     <div style="width: 60px; margin-top: 5px" class="form-inline">
+<button  style=""  title="Agranda" type="button" id="aumenta" class="btn  btn-xs btn" aria-label="Left Align">  <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> </button>
+<button  style="margin-left: 3px"  title="Agranda" type="button" id="achica" class="btn  btn-xs btn" aria-label="Left Align">  <span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> </button>
+     </div>
+     <div style="width: 60px; margin-top: 5px" class="form-inline">
+    <button  title="Quitar Seleccion" type="button" id="quitar" class="btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+     <button style="margin-left: 3px"  title="Limpiar" type="button" id="limpiar" class="btn  btn-xs btn" aria-label="Left Align">  <span class="glyphicon glyphicon-file" aria-hidden="true"></span> </button>
+   </div>
+ <button id="btnGenerar" style="margin-top: 5px;width: 60px" class="btn btn-xs btn-success"> 
+  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> </button>
+
+   </div>
+    <div id="conte_canvas">
+     
+     <canvas  id="canvas" width="850" height="200"></canvas>
+   </div>
+   {{>imagenPubli}}
+   <div id="conte_canvas2">
+      <canvas  id="canvas2" width="450" height="450"></canvas>
+   </div>
+   
+  </div>
+
+     
+     <br>
+
+
+</template>
+<template name="accionesPublicidades">
+  <div style="float:left;padding-right: 10px">
+    {{#if tieneVideo}}
+  <i  class="fas fa-video"></i>
+
+  {{/if}}
+</div>
+  <div id="sacaSlide" class="acciones" style="display:none">
+ 
+ <button title="Imprimir convenio" type="button" id="imprimir" class="activar btn  btn-xs btn-info" aria-label="Left Align">  <span class="glyphicon glyphicon-print" aria-hidden="true"></span> </button>
+  <button title="Generar banner convenio" type="button" id="editarBanner" class="activar btn  btn-xs btn-warning" aria-label="Left Align">  <span class="glyphicon glyphicon-picture" aria-hidden="true"></span> </button>
+ 
+      <button title="Modificar" type="button" id="modificar" class="activar btn  btn-xs btn-primary" aria-label="Left Align">  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> </button>
+
+    <button title="Quitar" type="button" id="delete" class="delete btn  btn-xs btn-danger" aria-label="Left Align">  <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> </button>
+      
+  </div>
+</template>
+<template name="buscadorPublicidades">
+  <div class="form-group">
+    <div class="input-group">
+      <div class="input-group-addon">COD.</div>
+      <input type="text" class="form-control" id="codigoNomenclador" placeholder="Codigo del nomenclador">
+    </div>
+  </div>
+
+</template>
+
+<template name='nuevaPromocion'>
+
+ <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+                <div class="modal-header">
+                   <h1> <i class="fas fa-plus"></i>  <b>AGREGAR</b> Promocion</h1>
+                 
+                </div>
+              <div class="modal-body">
+                
+{{#autoForm  collection="Publicidades" id="nuevaPromo_" doc=this scope="promociones" type="update-pushArray"}}
+{{> afQuickField name='detalle' }}
+{{> afQuickField name='ahorroEn' }}
+{{> afQuickField name='cantidad' }}
+{{> afQuickField name='cantidadCuotas' }}
+
+ <button type="submit"  id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+{{/autoForm}}
+      
+              </div>
+
+          </div>
+      </div>
+  </div>
+</template>
+<template name='modificarPromocion'>
+
+ <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+                <div class="modal-header">
+                   <h1> <i class="fas fa-pencil"></i>  <b>MODIFICAR</b> Promocion</h1>
+                 
+                </div>
+              <div class="modal-body">
+                
+{{#autoForm  collection="Publicidades" id="modificarPromo_" doc=this scope="promociones" setArrayItems=true  type="update"}}
+{{> afQuickField name=eti_detalle }}
+{{> afQuickField name=eti_ahorroEn }}
+{{> afQuickField name=eti_cantidad }}
+{{> afQuickField name=eti_cantidadCuotas }}
+
+ <button type="submit"  id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+{{/autoForm}}
+      
+              </div>
+
+          </div>
+      </div>
+  </div>
+</template>
+<template name='nuevaPublicidad'>
+
+ <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+                <div class="modal-header">
+                   <h1> <i class="fas fa-plus"></i>  <b>AGREGAR</b> Convenio</h1>
+                 
+                </div>
+              <div class="modal-body">
+                <style>
+                  img {
+                    max-width: 100%; /* This rule is very important, please do not ignore this! */
+                  }
+              </style>
+{{#autoForm collection="Publicidades" id="nuevaPublicidad_" type="insert"}}
+{{> afQuickField type='select2' name='idUsuario'  id='idUsuario'}}
+{{> afQuickField name='fecha'}}
+{{> afQuickField name='cantidadDescuento' }}
+{{> afQuickField name='detalle' }}
+{{> afQuickField name='tieneVideo' }}
+{{> afQuickField name='videoYoutube' }}
+{{> afQuickField name='link' }}
+{{> afQuickField id="logo" name='logo' type="hidden" }}
+
+{{> afQuickField name='estado' }}
+ <button type="submit"  id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+{{/autoForm}}
+      
+              </div>
+
+          </div>
+      </div>
+  </div>
+</template>
+<template name="videoPublicidad">
+
+ <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+                <div class="modal-header">
+                   <h1> <i class="fas fa-facetime-video"></i>  <b>VIDEO</b> Convenio </h1>
+                 
+                </div>
+              <div class="modal-body">
+          {{>videoPubli}}
+
+      
+              </div>
+
+          </div>
+      </div>
+  </div>
+</template>
+<template name="videoPubli">
+
+<h3>VIDEO <small> debe ser formato comun de video</small></h3>
+<div class="fileupload fileupload-new" data-provides="fileupload">
+   <span class="btn btn-file">
+      <span class="fileupload-new"></span>
+      <span class="fileupload-exists">{{file.label.de}}</span>
+      <input name="{{file.name}}" class="file-upload-input" method="{{file.method}}" type="file">
+   
+   </span>
+   <span class="fileupload-preview">
+   </span>
+   <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+</div>
+
+</template>
+<template name='modificarPublicidad'>
+
+ <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+
+                <div class="modal-header">
+                   <h1> <i class="fas fa-plus"></i>  <b>AGREGAR</b> Convenio</h1>
+                 
+                </div>
+              <div class="modal-body">
+                <style>
+                  img {
+                    max-width: 100%; /* This rule is very important, please do not ignore this! */
+                  }
+              </style>
+{{#autoForm collection="Publicidades" id="updatePublicidad_" doc=this type="update"}}
+{{> afQuickField type='select2' name='idUsuario'  id='idUsuario'}}
+{{> afQuickField name='fecha'}}
+{{> afQuickField name='cantidadDescuento' }}
+{{> afQuickField name='detalle' }}
+<div class="form-inline">
+{{> afQuickField name='tieneVideo' }}
+{{> afQuickField label=false name='videoYoutube' style="width:400px" }}
+</div>
+{{> afQuickField name='link' }}
+
+{{> afQuickField name='estado' }}
+
+ <button type="submit"  id="btnAceptar" style="width:100%" class="btn btn-primary"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> ACEPTAR</button>
+{{/autoForm}}
+      
+              </div>
+
+          </div>
+      </div>
+  </div>
+</template>

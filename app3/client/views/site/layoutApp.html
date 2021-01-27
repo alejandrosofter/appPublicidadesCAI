@@ -1,0 +1,147 @@
+<template name="buscadorSocios">
+  <span ><span style="width:200px;text-transform: uppercase">{{apellido}}</span> <small>{{nombre}}</small> <small style="color:green">({{dni}})</small><small style="color:blue">-{{nroSocio}}</small> </span>
+</template>
+<template name="layoutVacio">
+
+  <div class="container-fluid">
+    {{> yield}}
+  </div>
+
+</template>
+<template name="usuarioChat">
+<li class="dropdown">
+          <a class="dropdown-toggle" id="abrirChat" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="usuariosChat" id="usuario_{{id}}">
+	           
+	            {{nombreUsuario}}
+	<span id="cantidadMensajes_{{id}}" style="display:none" class="label label-danger"></span> 
+			</span>      
+            </a>
+        </li>
+
+</template>
+<template name="layoutSolo">
+<div class="contenedor">{{> yield}}</div>
+</template>
+<template name="layoutApp">
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<nav style="height: 30px" class="navbar navbar-default  navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+       <a class="navbar-brand" href="http://caibeneficios.com.ar" target="_blank"><img style="height: 60px" src="images/g6580.png"></a>
+ 
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" >
+      <ul class="nav navbar-nav " style="vertical-align: ">
+         
+        
+         {{#if esAdmin}}
+          <li class="dropdown">
+          <a href="/usuarios" class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">
+           <i style="color:#ff6600" class="fas fa-user"></i>
+            Usuarios
+            </a>
+        </li>
+        
+         {{/if}}
+         {{#if esAdmin}}
+          <li class="dropdown">
+          <a href="/publicidades" class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">
+           <i style="color:#ff6600" class="fas fa-store"></i>
+            Convenios
+            </a>
+        </li>
+        
+         {{/if}}
+         
+      {{#if esAdmin}}
+          <li class="dropdown">
+          <a href="/settings" class="dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false">
+           <i style="color:#ff6600" class="fas fa-cog"></i>
+            Configuraciones
+            </a>
+        </li>
+        
+         {{/if}}
+       
+      </ul>
+      {{#if paraLoguear}}
+
+       <ul class="nav navbar-nav navbar-right">
+        <li>
+           <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" id='usuario' style="width: 180px" class="form-control" placeholder="Usuario">
+          <input type="password" id='pass' class="form-control" style="width: 160px"  placeholder="Clave">
+        </div>
+        <button id="btnLoguin"  class="btn btn-sm botonCai"> <i class="fas fa-sign-in-alt"></i> Ingresar</button>
+     </form>
+    </li>
+  </ul>
+      {{/if}}
+
+      {{#if esAdmin}}
+    <ul class="nav navbar-nav navbar-left">
+      <li class="dropdown">
+          <a  class="dropdown-toggle"  role="button" style="cursor: pointer;color:yellow" id="btnPublicar" aria-haspopup="true" aria-expanded="false">
+           <i class="fas fa-sync"></i> 
+            PUBLICAR
+            </a>
+        </li>
+      </ul>
+      {{/if}} 
+
+      {{#if estaLogueado}}
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{nombreUsuario}} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+
+            <li><a href="#" class="salirSistema">Salir</a></li>
+          </ul>
+        </li>
+      </ul>
+      {{/if}}
+        {{#if estaLogueado}}
+        <div class="navbar-form navbar-right">
+        <div class="form-group">
+   <div class=" form-inline" >
+ <input  class="form-control buscadorSocio" placeholder="Nro de socio o DNI" id="nroSocio">
+ <button class="btn botonSocio"><i class="fas fa-search"></i> CHECKEAR</button>
+</div>
+</div>
+</div>
+{{/if}}
+      
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+ 
+  <aside>
+    {{> yield "aside"}}
+  </aside>
+ 
+
+  <div  class="container-fluid">
+
+    <div class="contenedor">{{> yield}}</div>
+  </div>
+
+  <footer>
+    {{> footer}}
+  </footer>
+ 
+</template>
+<template name='footer'>
+<div class="bs-docs-footer">
+  <br><br>
+  <p align="center"><small>Sistema desarrolado por <b>SOFTER</b> softer.com.ar <br><small>Cualquier inconveniente comunicarse al <b>2975447771</b> o enviar correo a <b>alejandro@softer.com.ar</b></small> </small></p>
+ </div>
+</template>
